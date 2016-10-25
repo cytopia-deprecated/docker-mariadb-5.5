@@ -105,21 +105,29 @@ run "yum -y install \
 ###
 print_headline "5. Configure MySQL"
 
-# Add default directories and permission
-if [ ! -d "${MYSQL_DEF_INCL}" ]; then run "mkdir -p ${MYSQL_DEF_INCL}"; fi
-if [ ! -d "${MYSQL_INCL}" ];     then run "mkdir -p ${MYSQL_INCL}";     fi
+# Remove auto-created directories
+if [ -d "${MYSQL_DEF_INCL}" ]; then run "rm -rf ${MYSQL_DEF_INCL}"; fi
+if [ -d "${MYSQL_INCL}" ];     then run "rm -rf ${MYSQL_INCL}";     fi
+if [ -d "${MYSQL_DEF_DAT}"  ]; then run "rm -rf ${MYSQL_DEF_DAT}" ; fi
+if [ -d "${MYSQL_DEF_SCK}"  ]; then run "rm -rf ${MYSQL_DEF_SCK}" ; fi
+if [ -d "${MYSQL_DEF_PID}"  ]; then run "rm -rf ${MYSQL_DEF_PID}" ; fi
+if [ -d "${MYSQL_DEF_LOG}"  ]; then run "rm -rf ${MYSQL_DEF_LOG}" ; fi
 
+# Recreate directories
+run "mkdir -p ${MYSQL_DEF_INCL}"
+run "mkdir -p ${MYSQL_INCL}"
+run "mkdir -p ${MYSQL_DEF_DAT}"
+run "mkdir -p ${MYSQL_DEF_SCK}"
+run "mkdir -p ${MYSQL_DEF_PID}"
+run "mkdir -p ${MYSQL_DEF_LOG}"
 
-if [ ! -d "${MYSQL_DEF_DAT}"  ]; then run "mkdir -p ${MYSQL_DEF_DAT}" ; fi
-if [ ! -d "${MYSQL_DEF_SCK}"  ]; then run "mkdir -p ${MYSQL_DEF_SCK}" ; fi
-if [ ! -d "${MYSQL_DEF_PID}"  ]; then run "mkdir -p ${MYSQL_DEF_PID}" ; fi
-if [ ! -d "${MYSQL_DEF_LOG}"  ]; then run "mkdir -p ${MYSQL_DEF_LOG}" ; fi
-
+# Set user permission
 run "chown -R ${MY_USER}:${MY_GROUP} ${MYSQL_DEF_DAT}"
 run "chown -R ${MY_USER}:${MY_GROUP} ${MYSQL_DEF_SCK}"
 run "chown -R ${MY_USER}:${MY_GROUP} ${MYSQL_DEF_PID}"
 run "chown -R ${MY_USER}:${MY_GROUP} ${MYSQL_DEF_LOG}"
 
+# Set fole mode
 run "chmod 777 ${MYSQL_DEF_DAT}"
 run "chmod 777 ${MYSQL_DEF_SCK}"
 run "chmod 777 ${MYSQL_DEF_PID}"
