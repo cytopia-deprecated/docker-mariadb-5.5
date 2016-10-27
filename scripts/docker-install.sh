@@ -67,7 +67,6 @@ run "adduser ${MY_USER} -u ${MY_UID} -M -s /sbin/nologin -g ${MY_GROUP}"
 ### Adding Repositories
 ###
 print_headline "2. Adding Repository"
-run "rpm -ivh https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm"
 {
 	echo "# MariaDB 5.5 CentOS repository list - created 2016-10-25 19:15 UTC";
 	echo "# http://downloads.mariadb.org/mariadb/repositories/";
